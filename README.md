@@ -40,6 +40,7 @@ python build_explainer_pdf.py      # the PDF explainer
 
 Data Credits: OpenCity Bengaluru Bus Stop Audit - July 2026 (accessed on 26.08.2026)
 
-## Author
+## Contributors
 
-A project by Sonia Das - [github.com/soniadas123](https://github.com/soniadas123)
+- **Sonia Das** - analysis, charts, interactive map, and this write-up -
+  [github.com/soniadas123](https://github.com/soniadas123)
