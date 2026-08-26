@@ -1,0 +1,82 @@
+<h1>Understanding the Bengaluru bus stop audit data</h1>
+<p>This document explains a dataset of 406 bus stops surveyed across Bengaluru between June 7 and July 17, 2026. Volunteers walked up to each stop, answered a set of questions on a phone using a survey tool called KoboToolbox, and photographed what they saw. The result is a CSV file with one row per stop and 86 columns covering location, shelter condition, accessibility, safety, and amenities.</p>
+
+<h2>How this differs from BMTC's own data</h2>
+<p>BMTC, the agency that runs Bengaluru's public buses, publishes its own open data on stop locations and routes. Open City's explainer on that dataset (opencity.in, "Understanding the BMTC bus stops and routes data") walks through fields like route frequency and people-per-trip ratios at the level of election booths, the smallest administrative unit the data is organized around. That data answers a question of coverage: how often does a bus pass through a given area, and how many people share each trip.</p>
+<p>The audit data in this document answers a different question: what is it actually like to wait at a specific stop? BMTC's data can tell you a bus comes every ten minutes. It cannot tell you whether the shelter has a roof, whether the footpath leading to it is walkable, or whether someone would feel safe standing there after dark. This dataset was collected to fill that gap, one stop at a time, by people who visited in person.</p>
+
+<h2>How the audit worked</h2>
+<p>Each row starts with a start and end timestamp for the survey and a "Date and Time" field for when the stop was actually visited. The surveyor recorded the stop's location three ways: a GPS reading from the phone, a pasted Google Maps link when GPS was unreliable, and in two cases coordinates typed in by hand. A cleaned latitude and longitude, plus a coordinate_source column noting which of the three methods was used, sit alongside the raw survey widget's own location fields.</p>
+<p>From there the form walks through the physical stop: what kind of shelter it has, how it sits relative to the road, whether people can reach it on foot, how far the bus actually stops from the platform, what amenities are present, and how safe it feels. Surveyors could also attach up to three photos and write free-text notes and recommendations.</p>
+
+<h2>Reading a row: the fields grouped by what they describe</h2>
+
+<h3>Identifying the stop</h3>
+<p>The "Name of the Bus Stop" field asks for the name printed on the shelter, or the name locals commonly use when there is no signage. This is why the same physical stop sometimes appears under two different names or spellings in the data. Fourteen stop names in this dataset appear more than once; a few of those are genuine repeat visits, but most turn out to be the same stop recorded under slightly different spellings, such as "Jayanagar" and "Jayangar" for what is otherwise an identical location.</p>
+
+<h3>Location fields</h3>
+<ul>
+<li><b>Survey Location, and its _latitude, _longitude, _altitude, and _precision sub-fields</b>: the raw output of the phone's GPS widget, including how many meters of error the device itself reported.</li>
+<li><b>latitude and longitude</b>: the cleaned coordinates actually used for mapping, filled in from GPS, a Google Maps link, or a typed value, whichever was available.</li>
+<li><b>coordinate_source</b>: which of those three methods produced the final coordinates. Device GPS covers 326 stops, a pasted Google Maps link covers 73, and 2 were typed in directly.</li>
+<li><b>location_flag</b>: reads OK for 401 stops and NO_LOCATION for the 5 stops where no coordinates could be captured at all.</li>
+</ul>
+
+<h3>The shelter itself</h3>
+<ul>
+<li><b>Type of Bus Stop</b>: the physical structure at the stop, from a stainless steel shelter to no shelter and no signboard at all. The most common type in this dataset is a metal shelter other than stainless steel (136 stops), closely followed by no shelter or signboard whatsoever (129 stops).</li>
+<li><b>Condition of Bus Shelter</b>: how well-maintained the shelter is, from clean and well kept to severely damaged. This question is only asked when a shelter exists, which is why it is blank for stops with no shelter or signboard.</li>
+<li><b>How is the bus stop positioned relative to the road</b>: whether it sits set back against a wall or compound, sits directly on the road or footpath edge next to traffic, or is squeezed onto a footpath too narrow to hold it properly.</li>
+</ul>
+
+<h3>Getting to the stop on foot</h3>
+<p>A cluster of questions covers whether a footpath reaches the stop from both directions, whether that footpath is actually walkable or blocked by parked vehicles, vendors, or utility boxes, whether a ramp exists and is usable, whether tactile paving is present for visually impaired users, and whether a pedestrian crossing sits near enough to use. A separate field records whether the kerb at the stop is higher than 15 centimeters or requires a step, though this particular field turned out to be empty for every single row, likely a form logic issue rather than a real absence of high kerbs everywhere.</p>
+
+<h3>Where the bus actually stops</h3>
+<p>Two related questions matter here. One asks where buses typically pull up: at the marked stop, before or beyond it, not clearly marked, or unclear. The other asks how far the boarding point is from the kerb, ranging from a flush boarding with less than 30 centimeters to a full step down onto the road surface. Together these describe a common failure mode in Indian cities: a stop can have a perfectly good shelter and still be nearly unusable if the bus never actually stops next to it.</p>
+
+<h3>Safety, comfort, and shelter quality</h3>
+<p>This is the group of questions most directly aimed at the rider's experience while waiting:</p>
+<ul>
+<li><b>Is the bus stop area free of encroachments</b>: fully accessible, partially encroached by vendors or parked vehicles, or heavily encroached to the point of being nearly unusable. 228 of the 406 stops were rated as partially encroached, 131 as fully free of obstructions, and 47 as heavily encroached.</li>
+<li><b>Is there evidence of water-logging or poor drainage</b>: 238 stops looked well-drained, 117 showed signs of standing water, and surveyors were unsure at 51.</li>
+<li><b>How safe does this bus stop feel, particularly at night</b>: rated safe at 162 stops, somewhat safe with some concerns at 148, and unsafe at 44. The remaining 52 stops were audited only during the day, so night safety could not be assessed at all.</li>
+<li>Further questions cover whether the stop is big enough for the number of people waiting, whether the roof and shade are adequate, whether lighting works at night, whether someone seated can see an approaching bus, and whether the seating itself is comfortable to sit on.</li>
+</ul>
+
+<h3>Amenities</h3>
+<p>A checklist records which amenities are present: a bench or seating, whether that seating is sufficient for demand, a dustbin, drinking water, a nearby public toilet, a CCTV camera, and a digital arrival-time board. Seating of some kind is present at 250 stops, but only 110 of those have enough seating for the number of people who typically wait there. CCTV cameras and drinking water are rare, showing up at 7 and 2 stops respectively.</p>
+
+<h3>Context: land use, advertising, and surveyor notes</h3>
+<p>Two more fields round out the picture. "What is the primary land use or activity near this bus stop" places the stop in its surroundings, whether that is mixed commercial and residential use (the most common answer, at 142 stops), retail-heavy commercial streets, office districts, institutional areas like schools and hospitals, purely residential streets, or a dead compound wall with no activity at all. "Does the bus shelter carry advertisements" flags whether ad panels have taken over space that could otherwise show route information, something surveyors frequently commented on. Free-text fields let surveyors add anything the checkboxes missed and suggest one or two improvements for that specific stop.</p>
+
+<h3>Photos</h3>
+<p>Up to four photos per stop: the front of the stop, a side view, and up to two photos of anything else worth flagging, each paired with a column holding the actual download URL for that image.</p>
+
+<h3>Fields added by the survey tool</h3>
+<p>The last group of columns, all starting with an underscore, plus a handful like __version__ and _tags, are added automatically by KoboToolbox rather than filled in by the surveyor. They include an internal ID and UUID for each submission, the exact submission timestamp, which version of the form was used, and a few validation and tagging fields the organizers never ended up using. None of these need to be shown to anyone reading the data, but they are useful for tracing a row back to its original submission if a question comes up later.</p>
+
+<h2>What I found when I checked the data</h2>
+<p>Before charting anything, it is worth knowing where this dataset has gaps or rough edges, since those affect how much weight any single number should carry.</p>
+<ul>
+<li>Six columns are completely empty across all 406 rows, including the kerb-height checkbox mentioned above and a few internal fields KoboToolbox adds but this survey never used. These can be dropped without losing anything.</li>
+<li>Several questions are missing for roughly a third of stops, and at first glance that looks like a problem. It is not: those questions only apply when a stop has a shelter or a signboard, so they are correctly blank for the 129 stops with neither and the 17 with a signboard only. The missing values track the survey's own branching logic rather than surveyors skipping questions.</li>
+<li>Five stops have no usable coordinates at all and are left off the map. Their names ("Not sure," for instance) suggest the surveyor could not pin down the location confidently in the field, not that data went missing afterward.</li>
+<li>Coordinate precision varies by how the location was captured. Device GPS readings carry their own reported error margin, and three of those readings are worse than 100 meters. Google Maps links and typed coordinates carry no such error estimate at all, so their accuracy has to be taken on trust.</li>
+<li>Twelve rows form six pairs sitting at identical coordinates but under different names. Some look like a stop and its return-direction counterpart recorded separately; others may be the same physical stop entered twice. Either way, they should be reviewed by hand rather than automatically merged or deleted.</li>
+</ul>
+
+<h2>What I built from this data</h2>
+<p>Alongside this document, I built a Python script (eda_bus_stop_audit.py) that reads the raw CSV and produces three things: a written data quality report, nine charts, and an interactive map.</p>
+<p>The charts cover the distribution of shelter types, shelter condition, safety at night, encroachment, drainage, land use, amenity availability, the top columns by missing data, and how many stops were audited on each day of the survey period. Four of these, shelter condition, safety at night, encroachment, and drainage, use the same color scheme throughout: green for a good outcome, amber for a middling one, red for a poor one, and gray where the question could not be answered. That consistency makes it possible to flip between charts and read the colors the same way each time. Three of the nine charts are reproduced on the following pages; the rest live in the outputs/charts folder alongside this document.</p>
+<!--CHARTS_HERE-->
+<p>The map plots all 401 stops with usable coordinates on an interactive Leaflet map. Each stop shows as a small bus icon colored by its perceived safety at night, the same scale used in the chart above, and a dashed outline traces Bengaluru's five BBMP corporation zones (Central, West, North, South, and East) for geographic context. It is meant for zooming into a neighborhood and seeing at a glance which stops need attention first.</p>
+
+<h2>How to use the interactive map</h2>
+<p>Open bus_stop_map.html in any web browser. No installation is needed, but the map tiles and the Leaflet library both load over the internet, so a machine with no connection will show a blank gray background instead of streets.</p>
+<p>Pan by dragging and zoom with the scroll wheel or the plus and minus buttons in the top-left corner. Each bus icon is colored by perceived safety at night: green for safe, amber for somewhat safe, red for unsafe, and gray for stops that were only audited in daylight and so could not be rated. The same key appears in a small box at the bottom right of the map. Click any icon to see that stop's name, type, and shelter condition.</p>
+<p>The panel in the top right holds five filters: Corporation, Safety at night, Type of bus stop, Encroachment status, and Land use. Each starts set to "All." Choosing a value in more than one filter narrows the map further rather than broadening it, so picking "Unsafe" under Safety at night and "West" under Corporation shows only unsafe stops in the western corporation, not every unsafe stop plus every stop in the west. A running count below the filters shows how many of the 401 mapped stops match the current selection, and the Reset filters button clears all five back to "All" in one click.</p>
+<p>The header at the top carries the project title and a link back to the GitHub repository; the black bar at the bottom credits the data source and the project author.</p>
+
+<h2>Limits worth keeping in mind</h2>
+<p>This is a volunteer-collected, point-in-time snapshot of 406 stops across a city with several thousand. It says nothing about the stops it does not cover, and a stop's condition can change quickly (a shelter gets repaired, a vendor moves in) after the day it was audited. Several safety-related questions could only be answered for stops visited during the day, so "unable to assess" at night is a real gap in the data rather than an implied "unsafe." Read the numbers here as a snapshot of what the audit team saw during those six weeks, not as a permanent rating of any stop.</p>
