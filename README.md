@@ -7,6 +7,9 @@ charts, interactive map, and this write-up are my own work.
 
 **Live map:** https://soniadas123.github.io/bengaluru-bus-stop-audit/
 
+**New (v2, improved):** an updated version of the map with a live stats panel and quick-start
+filters - https://soniadas123.github.io/bengaluru-bus-stop-audit/outputs/bus_stop_map_stats.html
+
 ## What's in this repo
 
 - `bengaluru_bus_stop_audit_2026.csv` - the raw survey export (406 rows, 86 columns).
@@ -23,6 +26,9 @@ charts, interactive map, and this write-up are my own work.
   - `charts/` - nine PNG charts covering shelter type, condition, safety, encroachment,
     drainage, land use, amenities, missingness, and audit progress over time.
   - `bus_stop_map.html` - the interactive Leaflet map (same file as `index.html`).
+  - `bus_stop_map_stats.html` - an improved v2 of the interactive map, with a live,
+    filter-reactive stats panel (headline numbers and breakdown bars) and quick-filter shortcuts,
+    built by the same script's `build_stats_map()` function.
   - `Understanding_the_Bengaluru_Bus_Stop_Audit_Data.pdf` - a plain-language explainer of the
     dataset's fields, its caveats, and how to use the map.
 
