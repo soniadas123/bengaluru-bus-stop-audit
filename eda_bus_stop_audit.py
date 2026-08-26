@@ -26,6 +26,7 @@ REPORT_PATH = OUT_DIR / "data_quality_summary.md"
 MAP_PATH = OUT_DIR / "bus_stop_map.html"
 PAGES_INDEX_PATH = BASE_DIR / "index.html"  # published via GitHub Pages
 STATS_MAP_PATH = OUT_DIR / "bus_stop_map_stats.html"  # experimental map with a live stats panel
+STATS_PAGES_PATH = BASE_DIR / "map-v2.html"  # copy of the above, published via GitHub Pages
 
 # --- Palette (project dataviz conventions) -----------------------------
 SURFACE = "#fcfcfb"
@@ -1168,7 +1169,9 @@ def build_stats_map(df):
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     STATS_MAP_PATH.write_text(html, encoding="utf-8")
+    STATS_PAGES_PATH.write_text(html, encoding="utf-8")
     print(f"Saved stats map to {STATS_MAP_PATH} ({len(stops)} stops plotted, {len(df) - len(stops)} excluded for missing coordinates)")
+    print(f"Also copied to {STATS_PAGES_PATH} for GitHub Pages")
 
 
 # --- Main --------------------------------------------------------------

@@ -8,7 +8,7 @@ charts, interactive map, and this write-up are my own work.
 **Live map:** https://soniadas123.github.io/bengaluru-bus-stop-audit/
 
 **New (v2, improved):** an updated version of the map with a live stats panel and quick-start
-filters - https://soniadas123.github.io/bengaluru-bus-stop-audit/outputs/bus_stop_map_stats.html
+filters - https://soniadas123.github.io/bengaluru-bus-stop-audit/map-v2.html
 
 ## What's in this repo
 
@@ -16,7 +16,7 @@ filters - https://soniadas123.github.io/bengaluru-bus-stop-audit/outputs/bus_sto
 - `blr_boundary.geojson` / `blr_boundary.qmd` - Bengaluru's five BBMP corporation zone
   boundaries, used to tag each stop with its corporation on the map.
 - `eda_bus_stop_audit.py` - reads the CSV and produces everything in `outputs/`, plus
-  `index.html` (a copy of the map, published via GitHub Pages).
+  `index.html` and `map-v2.html` (copies of the two maps, published via GitHub Pages).
 - `explainer_content.html` / `build_explainer_pdf.py` - source and build script for the PDF
   explainer.
 - `outputs/`
@@ -26,9 +26,9 @@ filters - https://soniadas123.github.io/bengaluru-bus-stop-audit/outputs/bus_sto
   - `charts/` - nine PNG charts covering shelter type, condition, safety, encroachment,
     drainage, land use, amenities, missingness, and audit progress over time.
   - `bus_stop_map.html` - the interactive Leaflet map (same file as `index.html`).
-  - `bus_stop_map_stats.html` - an improved v2 of the interactive map, with a live,
-    filter-reactive stats panel (headline numbers and breakdown bars) and quick-filter shortcuts,
-    built by the same script's `build_stats_map()` function.
+  - `bus_stop_map_stats.html` - an improved v2 of the interactive map (same file as
+    `map-v2.html`), with a live, filter-reactive stats panel (headline numbers and breakdown
+    bars) and quick-filter shortcuts, built by the same script's `build_stats_map()` function.
   - `Understanding_the_Bengaluru_Bus_Stop_Audit_Data.pdf` - a plain-language explainer of the
     dataset's fields, its caveats, and how to use the map.
 
